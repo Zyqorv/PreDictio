@@ -35,6 +35,7 @@ create_rmq_config() {
 
     sed -i "s/^USER=.*/USER=$RMQ_USER/" "$output_file"
     sed -i "s/^PASSWORD=.*/PASSWORD=$RMQ_PASSWORD/" "$output_file"
+    sed -i "s/^BROKER_HOST=.*/BROKER_HOST=$RMQ_BROKER_HOST/" "$output_file"
 
     chmod 600 "$output_file"
 
@@ -77,6 +78,7 @@ fi
 # RabbitMQ configuration setup
 echo "Configuring RabbitMQ credentials"
 
+read -p "RabbitMQ broker host IP: " RMQ_BROKER_HOST
 read -p "RabbitMQ username: " RMQ_USER
 read -s -p "RabbitMQ password: " RMQ_PASSWORD
 echo
