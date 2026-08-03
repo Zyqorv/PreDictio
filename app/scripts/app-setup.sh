@@ -70,16 +70,16 @@ read -s -p "RabbitMQ password: " RMQ_PASSWORD
 echo
 
 create_rmq_config \
-    "$CONFIG_DIR/admin.ini.example" \
-    "$CONFIG_DIR/admin.ini"
+    "$CONFIG_DIR/adminRabbitMQ.ini.example" \
+    "$CONFIG_DIR/adminRabbitMQ.ini"
 
 create_rmq_config \
-    "$CONFIG_DIR/auth.ini.example" \
-    "$CONFIG_DIR/auth.ini"
+    "$CONFIG_DIR/authRabbitMQ.ini.example" \
+    "$CONFIG_DIR/authRabbitMQ.ini"
 
 create_rmq_config \
-    "$CONFIG_DIR/worker.ini.example" \
-    "$CONFIG_DIR/worker.ini"
+    "$CONFIG_DIR/gameRabbitMQ.ini.example" \
+    "$CONFIG_DIR/gameRabbitMQ.ini"
 
 echo "RabbitMQ configuration files created successfully"
 
