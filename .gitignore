@@ -1,0 +1,6 @@
+# Composer
+/vendor/
+
+# RabbitMQ configuration
+*.ini
+!*.ini.example
