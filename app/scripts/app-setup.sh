@@ -4,6 +4,11 @@
 
 set -e
 
+# Find project root directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+CONFIG_DIR="$PROJECT_DIR/config"
+
 run() {
     local command="$1"
 
@@ -15,6 +20,25 @@ run() {
         echo "'$command' failed to complete"
         return 1
     fi
+}
+
+create_rmq_config() {
+    local example_file="$1"
+    local output_file="$2"
+
+    if [ ! -f "$example_file" ]; then
+        echo "Missing example file: $example_file"
+        exit 1
+    fi
+
+    cp "$example_file" "$output_file"
+
+    sed -i "s/^USER=.*/USER=$RMQ_USER/" "$output_file"
+    sed -i "s/^PASSWORD=.*/PASSWORD=$RMQ_PASSWORD/" "$output_file"
+
+    chmod 600 "$output_file"
+
+    echo "Created $output_file"
 }
 
 # Updates preinstalled packages
@@ -37,6 +61,27 @@ if ! command -v zerotier-cli >/dev/null 2>&1; then
 else
     echo "ZeroTier is already installed, skipping installation"
 fi
+
+# RabbitMQ configuration setup
+echo "Configuring RabbitMQ credentials"
+
+read -p "RabbitMQ username: " RMQ_USER
+read -s -p "RabbitMQ password: " RMQ_PASSWORD
+echo
+
+create_rmq_config \
+    "$CONFIG_DIR/admin.ini.example" \
+    "$CONFIG_DIR/admin.ini"
+
+create_rmq_config \
+    "$CONFIG_DIR/auth.ini.example" \
+    "$CONFIG_DIR/auth.ini"
+
+create_rmq_config \
+    "$CONFIG_DIR/worker.ini.example" \
+    "$CONFIG_DIR/worker.ini"
+
+echo "RabbitMQ configuration files created successfully"
 
 run "composer install"
 

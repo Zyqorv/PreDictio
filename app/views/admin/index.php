@@ -23,8 +23,6 @@
 
             <button onclick="window.location.href='/game'" class="btn btn-primary">To Game</button>
             <button onclick="window.location.href='/admin/database'" class="btn btn-secondary">Database Query</button>
-            <button onclick="window.location.href='/admin/logs'" class="btn btn-secondary">View Logs</button>
-
 
             <div class="divider">
                 <span>or</span>
