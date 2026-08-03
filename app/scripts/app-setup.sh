@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Nickita Zekov - nz84
-# Setup Script for App VM (MVP Milestone)
+# Setup Script for App VM (Milestone 3)
 
 set -e
 
@@ -41,11 +41,23 @@ create_rmq_config() {
     echo "Created $output_file"
 }
 
+# Changes to environment-specific hostname 
+while true; do
+    read -rp "Enter VM environment (dev, qa, prod): " env
+
+    case "${env,,}" in
+        dev|qa|prod)
+            sudo hostnamectl set-hostname "app-${env,,}"
+            break
+            ;;
+        *)
+            echo "Invalid input. Please enter 'dev', 'qa', or 'prod'."
+            ;;
+    esac
+done
+
 # Updates preinstalled packages
 run "sudo apt update"
-
-# Changes hostname
-run "sudo hostnamectl set-hostname app-vm-mvp-milestone"
 
 # Installs necessary packages
 run "sudo apt install -y git"
@@ -83,6 +95,7 @@ create_rmq_config \
 
 echo "RabbitMQ configuration files created successfully"
 
+cd "$PROJECT_DIR"
 run "composer install"
 
 echo "Setup script completed successfully"
