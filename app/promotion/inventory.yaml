@@ -33,5 +33,5 @@ production:
         health_check: http://10.129.232.229:8000/health
         mq_host: 10.129.232.130
 allowed_promotions:
-[devlopment, qa]
-[qa, production]
+- [development, qa]
+- [qa, production]
