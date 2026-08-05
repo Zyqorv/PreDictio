@@ -7,7 +7,7 @@ lanes:
       app_dir: /home/nz84/Test/app
       backup_dir: /home/nz84/Test/backups
       migrations_dir: /home/nz84/Test/migrations
-      service_name: predictio-api
+      service_name: apache2
       health_check: http://10.129.232.66:8000/health
       mq_host: 10.129.232.223 
   qa:
@@ -18,7 +18,7 @@ lanes:
       app_dir: /home/nz84/Test/app
       backup_dir: /home/nz84/Test/backups
       migrations_dir: /home/nz84/Test/migrations
-      service_name: predictio-api
+      service_name: apache2
       health_check: http://10.129.232.229:8000/health
       mq_host: 10.129.232.130
   production:
@@ -29,7 +29,7 @@ lanes:
       app_dir: /home/nz84/Test/app
       backup_dir: /home/nz84/Test/backups
       migrations_dir: /home/nz84/Test/migrations
-      service_name: predictio-api
+      service_name: apache2
       health_check: http://10.129.232.45:8000/health
       mq_host: 10.129.232.56
 allowed_promotions:
