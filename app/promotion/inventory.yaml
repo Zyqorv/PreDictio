@@ -1,7 +1,7 @@
 lanes:
   development:
     app:
-      host: 10.129.232.66
+      host: 10.129.232.61
       user: nz84
       ssh_key_path: ~/.ssh/id_ed25519
       app_dir: /home/nz84/Test/app
@@ -12,7 +12,7 @@ lanes:
       mq_host: 10.129.232.223 
   production:
     app:
-      host: 10.129.232.45
+      host: 10.129.232.27
       user: nz84
       ssh_key_path: ~/.ssh/id_ed25519
       app_dir: /home/nz84/Test/app
@@ -23,7 +23,7 @@ lanes:
       mq_host: 10.129.232.56
   qa:
     app:
-      host: 10.129.232.229
+      host: 10.129.232.50
       user: nz84
       ssh_key_path: ~/.ssh/id_ed25519
       app_dir: /home/nz84/Test/app
