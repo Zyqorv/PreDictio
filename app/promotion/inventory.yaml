@@ -21,8 +21,8 @@ production:
       service_name: predictio-api
       health_check: http://10.129.232.45:8000/health
       mq_host: 10.129.232.56
-    qa:
-      app:
+qa:
+    app:
         host: 10.129.232.229
         user: nz84
         ssh_key_path: ~/.ssh/id_ed25519
