@@ -239,7 +239,7 @@ def rollback(args):
 
 def migrate(args):
     inv = load_inventory()
-    cfg = target_config(inv, args.lane, "api")  # migrations run via the API VM's DB client
+    cfg = target_config(inv, args.lane, "app")  # migrations run via the API VM's DB client
     event = {"action": "migrate", "lane": args.lane, "release_id": args.release_id}
     if cfg is None:
         fail(event, f"unknown lane: {args.lane}")
@@ -300,14 +300,14 @@ def main():
     p_promote = sub.add_parser("promote", help="Promote a file or bulk release")
     p_promote.add_argument("--source", required=True, choices=["development", "qa"])
     p_promote.add_argument("--target", required=True, choices=["qa", "production"])
-    p_promote.add_argument("--role", required=True, choices=["api"])
+    p_promote.add_argument("--role", required=True, choices=["app"])
     p_promote.add_argument("--release-id", required=True)
     p_promote.add_argument("--file", help="Path to a single file for a targeted promotion")
     p_promote.set_defaults(func=promote)
 
     p_rollback = sub.add_parser("rollback", help="Restore from a prior backup")
     p_rollback.add_argument("--lane", required=True, choices=["qa", "production"])
-    p_rollback.add_argument("--role", required=True, choices=["api"])
+    p_rollback.add_argument("--role", required=True, choices=["app"])
     p_rollback.add_argument("--backup-id", required=True)
     p_rollback.set_defaults(func=rollback)
 
