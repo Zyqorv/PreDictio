@@ -10,17 +10,6 @@ lanes:
       service_name: predictio-api
       health_check: http://10.129.232.66:8000/health
       mq_host: 10.129.232.223 
-  production:
-    app:
-      host: 10.129.232.27
-      user: nz84
-      ssh_key_path: ~/.ssh/id_ed25519
-      app_dir: /home/nz84/Test/app
-      backup_dir: /home/nz84/Test/backups
-      migrations_dir: /home/nz84/Test/migrations
-      service_name: predictio-api
-      health_check: http://10.129.232.45:8000/health
-      mq_host: 10.129.232.56
   qa:
     app:
       host: 10.129.232.50
@@ -32,6 +21,17 @@ lanes:
       service_name: predictio-api
       health_check: http://10.129.232.229:8000/health
       mq_host: 10.129.232.130
+  production:
+    app:
+      host: 10.129.232.27
+      user: nz84
+      ssh_key_path: ~/.ssh/id_ed25519
+      app_dir: /home/nz84/Test/app
+      backup_dir: /home/nz84/Test/backups
+      migrations_dir: /home/nz84/Test/migrations
+      service_name: predictio-api
+      health_check: http://10.129.232.45:8000/health
+      mq_host: 10.129.232.56
 allowed_promotions:
 - [development, qa]
 - [qa, production]

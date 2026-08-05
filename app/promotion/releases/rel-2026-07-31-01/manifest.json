@@ -3,8 +3,4 @@
   "role": "app",
   "created_by": "nz84",
   "description": "API health endpoint update + config template",
-  "files": [
-    "main.py",
-    "config.yaml"
-  ]
 }
