@@ -2,5 +2,8 @@
   "release_id": "rel-2026-07-31-01",
   "role": "app",
   "created_by": "nz84",
-  "description": "API health endpoint update + config template"
+  "description": "API health endpoint update + config template",
+  "files": [
+    "main.py"
+  ]
 }
