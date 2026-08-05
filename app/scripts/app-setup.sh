@@ -37,8 +37,6 @@ create_rmq_config() {
     sed -i "s/^PASSWORD=.*/PASSWORD=$RMQ_PASSWORD/" "$output_file"
     sed -i "s/^BROKER_HOST=.*/BROKER_HOST=$RMQ_BROKER_HOST/" "$output_file"
 
-    chmod 600 "$output_file"
-
     echo "Created $output_file"
 }
 
@@ -58,7 +56,7 @@ while true; do
 done
 
 # Updates preinstalled packages
-run "sudo apt update"
+run "sudo apt upgrade"
 
 # Installs necessary packages
 run "sudo apt install -y git"
