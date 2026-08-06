@@ -62,15 +62,30 @@ run "sudo apt upgrade"
 run "sudo apt install -y git"
 run "sudo apt install -y composer" 
 run "sudo apt install -y php"
-run "sudo apt install -y ssh"
+run "sudo apt install -y openssh-client"
+run "sudo apt install -y openssh-client openssh-server"
 run "sudo apt install -y php-cli"
 run "sudo apt install -y python3"
 
-# Generagtes SSH key
-if [ ! -f "$HOME/.ssh/ed25519" ]; then
-    run "ssh-keygen -t ed25519 -N '' -f $HOME/.ssh/ed25519"
+# Generate and distribute SSH keys
+if [[ "$env" == "dev" || "$env" == "qa" ]]; then
+
+    if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+        run "ssh-keygen -t ed25519 -N '' -f $HOME/.ssh/id_ed25519"
+    else
+        echo "SSH key already exists, skipping generation"
+    fi
+
+    if [[ "$env" == "dev" ]]; then
+        echo "Copying SSH key to QA VM..."
+        run "ssh-copy-id -i $HOME/.ssh/id_ed25519.pub nz84@10.129.232.50"
+    elif [[ "$env" == "qa" ]]; then
+        echo "Copying SSH key to Production VM..."
+        run "ssh-copy-id -i $HOME/.ssh/id_ed25519.pub nz84@10.129.232.27"
+    fi
+
 else
-    echo "SSH key already exists, skipping generation"
+    echo "Production VM does not require SSH key generation."
 fi
 
 # Installs zerotier and joins group network if not already installed
