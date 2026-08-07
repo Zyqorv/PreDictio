@@ -5,9 +5,8 @@ lanes:
     ssh_key_path: ~/.ssh/id_ed25519
     app_dir: /home/nz84/PreDictio/app
     backup_dir: /home/nz84/PreDictio/backups
-    restart_script: /home/nz84/PreDictio/scripts/app-restart.sh
+    restart_script: /home/nz84/PreDictio/app/scripts/app-restart.sh
     health_check: http://localhost:8000
-    mq_host: 10.129.232.223
 
   qa:
     host: 10.129.232.50
@@ -15,9 +14,8 @@ lanes:
     ssh_key_path: ~/.ssh/id_ed25519
     app_dir: /home/nz84/PreDictio/app
     backup_dir: /home/nz84/PreDictio/backups
-    restart_script: /home/nz84/PreDictio/scripts/app-restart.sh
+    restart_script: /home/nz84/PreDictio/app/scripts/app-restart.sh
     health_check: http://localhost:8000
-    mq_host: 10.129.232.130
 
   prod:
     host: 10.129.232.27
@@ -25,6 +23,5 @@ lanes:
     ssh_key_path: ~/.ssh/id_ed25519
     app_dir: /home/nz84/PreDictio/app
     backup_dir: /home/nz84/PreDictio/backups
-    restart_script: /home/nz84/PreDictio/scripts/app-restart.sh
+    restart_script: /home/nz84/PreDictio/app/scripts/app-restart.sh
     health_check: http://localhost:8000
-    mq_host: 10.129.232.56

@@ -14,11 +14,9 @@ HOSTNAME=$(hostname)
 
 case "$HOSTNAME" in
     app-dev)
-        TARGET_IP="10.129.232.50"
         TARGET_NAME="QA"
         ;;
     app-qa)
-        TARGET_IP="10.129.232.27"
         TARGET_NAME="Production"
         ;;
     app-prod)
@@ -32,6 +30,13 @@ case "$HOSTNAME" in
         exit 1
         ;;
 esac
+
+read -rp "Enter ${TARGET_NAME} VM IP address: " TARGET_IP
+
+if [ -z "$TARGET_IP" ]; then
+    echo "ERROR: IP address cannot be empty."
+    exit 1
+fi
 
 
 # Verify SSH tools exist

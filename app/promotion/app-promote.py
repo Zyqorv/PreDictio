@@ -6,10 +6,16 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+import socket
+import os
 
 import yaml
 
-import socket
+
+if os.geteuid() == 0:
+    print("ERROR: Do not run app-promote.py with sudo.")
+    sys.exit(1)
+
 
 ROOT = Path(__file__).parent
 INVENTORY_PATH = ROOT / "inventory.yaml"
@@ -154,6 +160,11 @@ def promote(args):
 
     if args.file:
         source_file = Path(args.file)
+
+        if not source_file.is_absolute():
+            source_file = app_dir / source_file
+
+        source_file = source_file.resolve()
 
         if not source_file.exists():
             fail(event, f"file not found: {source_file}")
