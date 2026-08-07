@@ -27,6 +27,9 @@ EXCLUDED_PATHS = {
     "vendor",
     "backups",
     "promotion",
+    "adminRabbitMQ.ini",
+    "authRabbitMQ.ini",
+    "gameRabbitMQ.ini",
 }
 
 def load_inventory():
