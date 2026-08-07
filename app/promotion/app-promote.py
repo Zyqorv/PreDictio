@@ -236,45 +236,28 @@ def promote(args):
                 f"transfer failed for {relative}: {result.stderr}",
             )
 
-    if backup_lane == args.lane:
-        # Local restart
-        restart_result = subprocess.run(
-            cfg["restart_script"],
-            shell=True,
-            capture_output=True,
-            text=True,
-        )
-    else:
-        # Remote restart
-        restart_result = ssh_run(
-            cfg,
-            cfg["restart_script"],
-            check=False,
-        )
+    restart_result = ssh_run(
+        cfg,
+        cfg["restart_script"],
+        check=False,
+    )
 
     if restart_result.returncode != 0:
-        event["restart_result"] = "FAILED"
-        event["restart_error"] = (
-            restart_result.stderr or restart_result.stdout
+        fail(
+            event,
+            f"restart failed: {restart_result.stderr}",
         )
-    else:
-        event["restart_result"] = "SUCCESS"
 
+    health_result = ssh_run(
+        cfg,
+        f"curl -fsS {cfg['health_check']}",
+        check=False,
+    )
 
-    if backup_lane == args.lane:
-        # Local health check
-        verify = subprocess.run(
-            f"curl -fsS {cfg['health_check']}",
-            shell=True,
-            capture_output=True,
-            text=True,
-        )
-    else:
-        # Remote health check
-        verify = ssh_run(
-            cfg,
-            f"curl -fsS {cfg['health_check']}",
-            check=False,
+    if health_result.returncode != 0:
+        fail(
+            event,
+            f"health check failed; backup {backup_id} available",
         )
 
     event["result"] = "SUCCESS"
@@ -401,11 +384,21 @@ def rollback(args):
             f"restore failed: {result.stderr}",
         )
 
-    restart_result = ssh_run(
-        cfg,
-        cfg["restart_script"],
-        check=False,
-    )
+    if backup_lane == args.lane:
+        # Local restart
+        restart_result = subprocess.run(
+            cfg["restart_script"],
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+    else:
+        # Remote restart
+        restart_result = ssh_run(
+            cfg,
+            cfg["restart_script"],
+            check=False,
+        )
 
     if restart_result.returncode != 0:
         event["restart_result"] = "FAILED"
@@ -416,20 +409,21 @@ def rollback(args):
         event["restart_result"] = "SUCCESS"
 
 
-    verify = ssh_run(
-        cfg,
-        f"curl -fsS {cfg['health_check']}",
-        check=False,
-    )
-
-    if verify.returncode != 0:
-        event["health_check"] = "FAILED"
-        event["health_error"] = (
-            verify.stderr or verify.stdout
+    if backup_lane == args.lane:
+        # Local health check
+        verify = subprocess.run(
+            f"curl -fsS {cfg['health_check']}",
+            shell=True,
+            capture_output=True,
+            text=True,
         )
     else:
-        event["health_check"] = "SUCCESS"
-
+        # Remote health check
+        verify = ssh_run(
+            cfg,
+            f"curl -fsS {cfg['health_check']}",
+            check=False,
+        )
 
     event["result"] = "SUCCESS"
 
