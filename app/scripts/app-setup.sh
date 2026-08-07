@@ -4,6 +4,11 @@
 
 set -e
 
+if [ "$EUID" -eq 0 ]; then
+    echo "Do not run this script with sudo."
+    exit 1
+fi
+
 # Find project root directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -56,37 +61,17 @@ while true; do
 done
 
 # Updates preinstalled packages
-run "sudo apt upgrade"
+run "sudo apt update"
+run "sudo apt upgrade -y"
 
 # Installs necessary packages
 run "sudo apt install -y git"
 run "sudo apt install -y composer" 
 run "sudo apt install -y php"
 run "sudo apt install -y openssh-client"
-run "sudo apt install -y openssh-client openssh-server"
+run "sudo apt install -y openssh-server"
 run "sudo apt install -y php-cli"
 run "sudo apt install -y python3"
-
-# Generate and distribute SSH keys
-if [[ "$env" == "dev" || "$env" == "qa" ]]; then
-
-    if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
-        run "ssh-keygen -t ed25519 -N '' -f $HOME/.ssh/id_ed25519"
-    else
-        echo "SSH key already exists, skipping generation"
-    fi
-
-    if [[ "$env" == "dev" ]]; then
-        echo "Copying SSH key to QA VM..."
-        run "ssh-copy-id -i $HOME/.ssh/id_ed25519.pub nz84@10.129.232.50"
-    elif [[ "$env" == "qa" ]]; then
-        echo "Copying SSH key to Production VM..."
-        run "ssh-copy-id -i $HOME/.ssh/id_ed25519.pub nz84@10.129.232.27"
-    fi
-
-else
-    echo "Production VM does not require SSH key generation."
-fi
 
 # Installs zerotier and joins group network if not already installed
 if ! command -v zerotier-cli >/dev/null 2>&1; then
