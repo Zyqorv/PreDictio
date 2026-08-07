@@ -236,28 +236,45 @@ def promote(args):
                 f"transfer failed for {relative}: {result.stderr}",
             )
 
-    restart_result = ssh_run(
-        cfg,
-        cfg["restart_script"],
-        check=False,
-    )
-
-    if restart_result.returncode != 0:
-        fail(
-            event,
-            f"restart failed: {restart_result.stderr}",
+    if backup_lane == args.lane:
+        # Local restart
+        restart_result = subprocess.run(
+            cfg["restart_script"],
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+    else:
+        # Remote restart
+        restart_result = ssh_run(
+            cfg,
+            cfg["restart_script"],
+            check=False,
         )
 
-    health_result = ssh_run(
-        cfg,
-        f"curl -fsS {cfg['health_check']}",
-        check=False,
-    )
+    if restart_result.returncode != 0:
+        event["restart_result"] = "FAILED"
+        event["restart_error"] = (
+            restart_result.stderr or restart_result.stdout
+        )
+    else:
+        event["restart_result"] = "SUCCESS"
 
-    if health_result.returncode != 0:
-        fail(
-            event,
-            f"health check failed; backup {backup_id} available",
+
+    if backup_lane == args.lane:
+        # Local health check
+        verify = subprocess.run(
+            f"curl -fsS {cfg['health_check']}",
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
+    else:
+        # Remote health check
+        verify = ssh_run(
+            cfg,
+            f"curl -fsS {cfg['health_check']}",
+            check=False,
         )
 
     event["result"] = "SUCCESS"
