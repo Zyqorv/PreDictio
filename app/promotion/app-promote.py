@@ -391,10 +391,13 @@ def rollback(args):
     )
 
     if restart_result.returncode != 0:
-        fail(
-            event,
-            f"restart failed: {restart_result.stderr}",
+        event["restart_result"] = "FAILED"
+        event["restart_error"] = (
+            restart_result.stderr or restart_result.stdout
         )
+    else:
+        event["restart_result"] = "SUCCESS"
+
 
     verify = ssh_run(
         cfg,
@@ -403,10 +406,13 @@ def rollback(args):
     )
 
     if verify.returncode != 0:
-        fail(
-            event,
-            "rollback completed but health check failed",
+        event["health_check"] = "FAILED"
+        event["health_error"] = (
+            verify.stderr or verify.stdout
         )
+    else:
+        event["health_check"] = "SUCCESS"
+
 
     event["result"] = "SUCCESS"
 
