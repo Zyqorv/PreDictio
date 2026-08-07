@@ -57,7 +57,7 @@ def target_config(inv, lane):
     return inv["lanes"].get(lane)
 
 
-def ssh_run(cfg, remote_cmd, check=True):
+def ssh_run(cfg, remote_cmd, check=False):
     cmd = [
         "ssh", "-i", str(Path(cfg["ssh_key_path"]).expanduser()),
         "-o", "StrictHostKeyChecking=accept-new",
@@ -273,45 +273,84 @@ def promote(args):
         f"({event['mode']}). Backup: {backup_id}"
     )
 
+def find_backup(inv, current_lane, backup_id):
+
+    search_order = [current_lane]
+
+    if current_lane == "dev":
+        search_order.append("qa")
+    elif current_lane == "qa":
+        search_order.append("prod")
+
+    for candidate in search_order:
+        cfg = target_config(inv, candidate)
+
+        if cfg is None:
+            continue
+
+        backup_path = (
+            f"{cfg['backup_dir']}/{backup_id}.tar.gz"
+        )
+
+        if candidate == current_lane:
+            # Local check
+            result = subprocess.run(
+                [
+                    "test",
+                    "-f",
+                    backup_path,
+                ],
+                capture_output=True,
+            )
+
+        else:
+            # Remote check
+            result = ssh_run(
+                cfg,
+                f"test -f {backup_path}",
+                check=False,
+            )
+
+        if result.returncode == 0:
+            return candidate, cfg, backup_path
+
+    return None, None, None
+
 
 def rollback(args):
     inv = load_inventory()
-
-    cfg = target_config(inv, args.lane)
 
     event = {
         "action": "rollback",
         "lane": args.lane,
         "backup_id": args.backup_id,
+        "initiated_from": socket.gethostname(),
     }
 
-    if cfg is None:
-        fail(event, f"unknown lane: {args.lane}")
-
-    backup_path = f"{cfg['backup_dir']}/{args.backup_id}.tar.gz"
-
-    check = ssh_run(
-        cfg,
-        f"test -f {backup_path} && echo OK",
-        check=False,
+    backup_lane, cfg, backup_path = find_backup(
+        inv,
+        args.lane,
+        args.backup_id,
     )
 
-    if "OK" not in check.stdout:
+    if cfg is None:
         fail(
             event,
-            f"backup not found on target: {backup_path}",
+            f"backup not found anywhere: {args.backup_id}",
         )
 
-    protected_paths = " -o ".join(
-        f"-name {item}"
-        for item in EXCLUDED_PATHS
-    )
+    event["restored_lane"] = backup_lane
+    event["backup_path"] = backup_path
 
     cleanup_command = (
         f"find {cfg['app_dir']} "
         f"-mindepth 1 "
         f"\\( "
-        f"{protected_paths}"
+        + " -o ".join(
+            f"-name {item}"
+            for item in EXCLUDED_PATHS
+        )
+        +
         f" \\) -prune -o "
         f"-exec rm -rf {{}} +"
     )
@@ -322,16 +361,27 @@ def rollback(args):
         f"-C {cfg['app_dir']}"
     )
 
-    restore = ssh_run(
-        cfg,
-        restore_command,
-        check=False,
-    )
+    if backup_lane == args.lane:
+        # Local rollback
+        result = subprocess.run(
+            restore_command,
+            shell=True,
+            capture_output=True,
+            text=True,
+        )
 
-    if restore.returncode != 0:
+    else:
+        # Remote rollback
+        result = ssh_run(
+            cfg,
+            restore_command,
+            check=False,
+        )
+
+    if result.returncode != 0:
         fail(
             event,
-            f"restore failed: {restore.stderr}",
+            f"restore failed: {result.stderr}",
         )
 
     restart_result = ssh_run(
@@ -355,7 +405,7 @@ def rollback(args):
     if verify.returncode != 0:
         fail(
             event,
-            "rollback completed but health check failed afterward",
+            "rollback completed but health check failed",
         )
 
     event["result"] = "SUCCESS"
@@ -363,10 +413,9 @@ def rollback(args):
     log_event(**event)
 
     print(
-        f"Rolled back {args.lane} "
-        f"to backup {args.backup_id}"
+        f"Rolled back {backup_lane} "
+        f"using backup {args.backup_id}"
     )
-
 
 def get_current_lane():
     hostname = socket.gethostname().lower()
