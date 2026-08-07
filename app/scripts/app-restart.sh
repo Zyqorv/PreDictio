@@ -1,4 +1,4 @@
 #!/bin/bash
-pkill -f "php -S localhost:8000"
+pkill -f "php -S 0.0.0.0:8000"
 cd /home/nz84/PreDictio/app/public
-nohup php -S localhost:8000 > /tmp/php-server.log 2>&1 &
+nohup php -S 0.0.0.0:8000 router.php > /tmp/php-server.log 2>&1 &
