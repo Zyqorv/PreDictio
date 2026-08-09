@@ -102,12 +102,6 @@ Expected JSON Response:
 
         <button
             class="btn btn-secondary"
-            onclick="revealNextHint()">
-            Reveal Next Hint
-        </button>
-
-        <button
-            class="btn btn-secondary"
             onclick="giveUp()">
             Give Up
         </button>
@@ -345,6 +339,8 @@ async function checkGuess(giveUp = false) {
             setTimeout(loadGame, 1500);
 
         } else {
+
+            revealNextHint();
 
             message.innerText = "Incorrect, try again!";
             message.className = "incorrect";
