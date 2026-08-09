@@ -1,5 +1,6 @@
 # Composer
 /app/vendor/
+/app/backups/
 
 # RabbitMQ configuration
 *.ini
