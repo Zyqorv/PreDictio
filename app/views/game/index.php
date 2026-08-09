@@ -100,6 +100,10 @@ Expected JSON Response:
 
         </div>
 
+        <div id="message"></div>
+
+        <div id="hint-message"></div>
+
         <button
             class="btn btn-secondary"
             onclick="giveUp()">
@@ -107,9 +111,6 @@ Expected JSON Response:
         </button>
 
         <button onclick="window.location.href='/account/'" class="btn btn-secondary">Account</button>
-
-        <div id="message"></div>
-
 
     </div>
 
@@ -220,7 +221,7 @@ function revealNextHint() {
     if (currentHintIndex >= currentItem.hints.length) {
 
 
-        document.getElementById("message").innerText =
+        document.getElementById("hint-message").innerText =
             "No more hints available!";
 
 
