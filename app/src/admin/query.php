@@ -25,6 +25,7 @@ require_once __DIR__ . "/adminMessage.php";
 try {
 
     $message = [
+        'admin_email' => $_SESSION["admin_email"],
         'sql' => $query,
     ];
 

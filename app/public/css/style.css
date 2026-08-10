@@ -322,6 +322,50 @@ body {
     border-color: #D0D0D0;
 }
 
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 16px;
+}
+
+.api-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+}
+
+.api-log-table th,
+.api-log-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    vertical-align: top;
+}
+
+.api-log-table th {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.api-log-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.error-message-cell {
+    min-width: 250px;
+    max-width: 500px;
+    overflow-wrap: anywhere;
+}
+
+.status-resolved {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.status-unresolved {
+    color: #f87171;
+    font-weight: 600;
+}
 
 .game-card .btn {
   margin-top: 10px;
