@@ -67,7 +67,7 @@ Expected JSON Response:
 
 
         <div class="guess-counter">
-            Your Guesses: <span id="guess-count">0</span>
+            Your Guesses: <span id="guess-count">-</span>
         </div>
 
         <div class="points">
@@ -130,7 +130,7 @@ Expected JSON Response:
 
 let currentItem = null;
 let currentHintIndex = 0;
-let guessCount = "-";
+let guessCount = null;
 
 function updateStats() {
 
