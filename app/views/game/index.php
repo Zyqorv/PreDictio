@@ -360,6 +360,8 @@ async function checkGuess(giveUp = false) {
 
             points--;
 
+            document.getElementById("points").innerText = points;
+
             if (points <= 0)
             {
                 giveUp();
