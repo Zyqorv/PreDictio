@@ -131,6 +131,8 @@ Expected JSON Response:
 let currentItem = null;
 let currentHintIndex = 0;
 let guessCount = null;
+let origPoints = null;
+let points = null;
 
 function updateStats() {
 
@@ -189,10 +191,13 @@ async function loadGame() {
         document.getElementById("hint-message").innerText = "";
         document.getElementById("guess-input").value = "";
 
-        guessCount = currentItem.guess_count ?? 0;
+        guessCount = currentItem.user_guesses ?? 0;
+        origPoints = currentItem.points;
+
+        points = origPoints - (guessCount * (origPoints * 0.1));
 
         document.getElementById("guess-count").innerText = guessCount;
-        document.getElementById("points").innerText = currentItem.points ?? "-";
+        document.getElementById("points").innerText = points;
 
         while (currentHintIndex < guessCount && currentHintIndex < currentItem.hints.length) {
             revealNextHint();
