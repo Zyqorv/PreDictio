@@ -1,7 +1,3 @@
-<pre>
-<?php var_dump($apiLogs); ?>
-</pre>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
