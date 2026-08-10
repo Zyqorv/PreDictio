@@ -21,6 +21,7 @@
             <div>Total Guesses: <span id="total-guesses">Loading...</span></div>
             <div>Total Wins: <span id="total-wins">Loading...</span></div>
             <div>Total Losses: <span id="total-losses">Loading...</span></div>
+            <div>Lifetime Score: <span id="total-score">Loading...</span></div>
             <div>Current Streak: <span id="current-streak">Loading...</span></div>
         </div>
 
@@ -87,6 +88,7 @@
                 document.getElementById('total-wins').textContent = stats.total_wins;
                 document.getElementById('total-losses').textContent = stats.total_losses;
                 document.getElementById('current-streak').textContent = stats.current_streak;
+                document.getElementById('total-score').textContent = stats.total_score;
 
 
             } catch (error) {
@@ -98,7 +100,7 @@
                 document.getElementById('total-wins').textContent = "-";
                 document.getElementById('total-losses').textContent = "-";
                 document.getElementById('current-streak').textContent = "-";
-
+                document.getElementById('total-score').textContent = "-";
 
                 message.innerText =
                     "Error: Unable to load account statistics.";

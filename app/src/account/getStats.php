@@ -39,7 +39,8 @@ try {
         !isset($response["total_guesses"]) ||
         !isset($response["total_wins"]) ||
         !isset($response["total_losses"]) ||
-        !isset($response["current_streak"])
+        !isset($response["current_streak"]) ||
+        !isset($response["total_score"])
     ) {
 
         http_response_code(500);

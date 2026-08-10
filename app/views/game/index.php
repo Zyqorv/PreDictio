@@ -351,7 +351,7 @@ async function checkGuess(endGame = false) {
 
         } else if (result.message.result) {
 
-            message.innerText = "Correct! Loading next word...";
+            message.innerText = `You earned ${points} points! Loading next word...`;            
             message.className = "correct";
 
             setTimeout(loadGame, 1500);
