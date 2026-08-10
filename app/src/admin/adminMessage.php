@@ -18,7 +18,7 @@ try {
     $client = new rabbitMQClient(__DIR__ . "/../../config/adminRabbitMQ.ini");
     $response = $client->send_request($request);
 
-    var_dump($response);
+    error_log($response);
 
     return $response;
   #  print_r($response);
