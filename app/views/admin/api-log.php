@@ -1,6 +1,6 @@
-    <pre>
-    var_dump($apiLogs);
-    </pre>
+<pre>
+<?php var_dump($apiLogs); ?>
+</pre>
 
 <!DOCTYPE html>
 <html lang="en">
