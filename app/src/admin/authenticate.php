@@ -78,7 +78,7 @@ try {
     $_SESSION['user_edit'] = $response['user_edit'];
     $_SESSION['word_edit'] = $response['word_edit'];
     $_SESSION['db_query'] = $response['db_query'];
-    $_SESSION['admin_log'] = $response['admin_log'];
+    $_SESSION['edit_log'] = $response['admin_log'];
     $_SESSION['api_log'] = $response['api_log'];
 
     $redirectTo = $_POST['redirect_to'] ?? '/admin/';

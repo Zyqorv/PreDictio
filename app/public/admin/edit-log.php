@@ -11,4 +11,4 @@ if ($_SESSION["edit_log"] !== 1) {
     exit();
 }
 
-require __DIR__ . '/../../views/admin/edit-log.php';
+require __DIR__ . "/../../src/admin/getEditLogs.php";

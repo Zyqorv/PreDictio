@@ -11,4 +11,4 @@ if ($_SESSION["user_edit"] !== 1) {
     exit();
 }
 
-require __DIR__ . '/../../views/admin/users.php';
+require __DIR__ . '/../../src/admin/getUsers.php';

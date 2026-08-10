@@ -11,4 +11,4 @@ if ($_SESSION["api_log"] !== 1) {
     exit();
 }
 
-require __DIR__ . '/../../views/admin/api-log.php';
+require __DIR__ . "/../../src/admin/getApiLogs.php";

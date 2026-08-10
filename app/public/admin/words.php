@@ -11,4 +11,4 @@ if ($_SESSION["word_edit"] !== 1) {
     exit();
 }
 
-require __DIR__ . '/../../views/admin/words.php';
+require __DIR__ . '/../../src/admin/getWords.php';
