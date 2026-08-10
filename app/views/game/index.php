@@ -358,6 +358,8 @@ async function checkGuess(giveUp = false) {
 
         } else {
 
+            points--;
+
             if (points <= 0)
             {
                 giveUp();
