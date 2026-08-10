@@ -41,13 +41,16 @@ try {
         $sql
     );
 
-
-    if (isset($response["data"]) && is_array($response["data"])) {
-        $words = $response["data"];
-    } elseif (isset($response["rows"]) && is_array($response["rows"])) {
-        $words = $response["rows"];
-    } else {
-        $queryError = "Invalid response from query service.";
+    if (isset($response["type"]) && $response["type"] === "success") {
+        if (isset($response["message"]) && is_array($response["message"])) {
+            $words = $response["message"];
+        }
+        else {
+            $queryError = "Invalid response from query service.";
+        }
+    } 
+    else if (isset($response["type"]) && $response["type"] === "error") {
+        $queryError = $response["message"] ?? "Invalid response from query service.";
     }
 
 } catch (Throwable $e) {

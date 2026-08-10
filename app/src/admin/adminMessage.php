@@ -18,7 +18,6 @@ try {
     $client = new rabbitMQClient(__DIR__ . "/../../config/adminRabbitMQ.ini");
     $response = $client->send_request($request);
 
-    echo "Client received response:" . PHP_EOL;
     return $response;
   #  print_r($response);
 } catch (Throwable $error) {

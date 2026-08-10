@@ -33,12 +33,16 @@ try {
     );
 
 
-    if (isset($response["data"]) && is_array($response["data"])) {
-        $editLogs = $response["data"];
-    } elseif (isset($response["rows"]) && is_array($response["rows"])) {
-        $editLogs = $response["rows"];
-    } else {
-        $queryError = "Invalid response from query service.";
+    if (isset($response["type"]) && $response["type"] === "success") {
+        if (isset($response["message"]) && is_array($response["message"])) {
+            $editLogs = $response["message"];
+        }
+        else {
+            $queryError = "Invalid response from query service.";
+        }
+    } 
+    else if (isset($response["type"]) && $response["type"] === "error") {
+        $queryError = $response["message"] ?? "Invalid response from query service.";
     }
 
 } catch (Throwable $e) {
