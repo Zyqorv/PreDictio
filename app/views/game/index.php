@@ -274,7 +274,7 @@ async function giveUp() {
 
 }
 
-async function checkGuess(giveUp = false) {
+async function checkGuess(endGame = false) {
 
 
     if (!currentItem) {
@@ -288,14 +288,14 @@ async function checkGuess(giveUp = false) {
     try {
 
 
-        const guess = giveUp
+        const guess = endGame
             ? "give_up"
             : document
                 .getElementById("guess-input")
                 .value
                 .trim();
 
-        if (!giveUp) {
+        if (!endGame) {
             guessCount++;
             document.getElementById("guess-count").innerText = guessCount;
         }
@@ -335,7 +335,7 @@ async function checkGuess(giveUp = false) {
         const result = await response.json();
 
 
-        if (giveUp) {
+        if (endGame) {
 
             if (points <= 0) {
                 message.innerText =
@@ -365,6 +365,8 @@ async function checkGuess(giveUp = false) {
             if (points <= 0)
             {
                 giveUp();
+
+                return;
             }
 
             revealNextHint();
