@@ -6,7 +6,7 @@ if (!isset($_SESSION["admin_email"])) {
     exit();
 }
 
-if ($_SESSION["api_log"] !== true) {
+if ($_SESSION["api_log"] !== 1) {
     header("Location: /admin/");
     exit();
 }

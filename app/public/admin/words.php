@@ -6,7 +6,7 @@ if (!isset($_SESSION["admin_email"])) {
     exit();
 }
 
-if ($_SESSION["word_edit"] !== true) {
+if ($_SESSION["word_edit"] !== 1) {
     header("Location: /admin/");
     exit();
 }
