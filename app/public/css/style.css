@@ -309,6 +309,19 @@ body {
   border-color: var(--border-strong);
 }
 
+.btn:disabled {
+    background: #E5E5E5;
+    color: #999999;
+    border-color: #D0D0D0;
+    cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+    background: #E5E5E5;
+    color: #999999;
+    border-color: #D0D0D0;
+}
+
 
 .game-card .btn {
   margin-top: 10px;
