@@ -129,7 +129,7 @@ Expected JSON Response:
 
 
 let currentItem = null;
-let currentHintIndex = 0;
+let hintsRevealed = 0;
 let guessCount = null;
 let origPoints = null;
 let points = null;
@@ -191,6 +191,7 @@ async function loadGame() {
         document.getElementById("hint-message").innerText = "";
         document.getElementById("guess-input").value = "";
 
+        hintsRevealed = 0;
         guessCount = currentItem.user_guesses ?? 0;
         origPoints = currentItem.points;
 
@@ -199,7 +200,7 @@ async function loadGame() {
         document.getElementById("guess-count").innerText = guessCount;
         document.getElementById("points").innerText = points;
 
-        while (currentHintIndex < guessCount && currentHintIndex < currentItem.hints.length) {
+        while (hintsRevealed < guessCount && hintsRevealed < currentItem.hints.length) {
             revealNextHint();
         }
 
@@ -231,7 +232,7 @@ function revealNextHint() {
     }
 
 
-    if (currentHintIndex >= currentItem.hints.length) {
+    if (hintsRevealed >= currentItem.hints.length) {
 
 
         document.getElementById("hint-message").innerText =
@@ -242,7 +243,7 @@ function revealNextHint() {
     }
 
 
-    const hint = currentItem.hints[currentHintIndex];
+    const hint = currentItem.hints[hintsRevealed];
 
 
     const div = document.createElement("div");
@@ -262,7 +263,7 @@ function revealNextHint() {
         .appendChild(div);
 
 
-    currentHintIndex++;
+    hintsRevealed++;
 }
 
 async function giveUp() {
