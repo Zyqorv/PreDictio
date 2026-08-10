@@ -131,7 +131,6 @@ Expected JSON Response:
 let currentItem = null;
 let hintsRevealed = 0;
 let guessCount = null;
-let origPoints = null;
 let points = null;
 
 function updateStats() {
@@ -193,9 +192,8 @@ async function loadGame() {
 
         hintsRevealed = 0;
         guessCount = currentItem.user_guesses ?? 0;
-        origPoints = currentItem.points;
 
-        points = origPoints - (guessCount * (origPoints * 0.1));
+        points = 10 - (guessCount);
 
         document.getElementById("guess-count").innerText = guessCount;
         document.getElementById("points").innerText = points;
@@ -339,8 +337,13 @@ async function checkGuess(giveUp = false) {
 
         if (giveUp) {
 
-            message.innerText =
-                `The correct word was "${result.message.result}". Loading next word...`;
+            if (points <= 0) {
+                message.innerText =
+                    `Out of points! The correct word was "${result.message.result}". Loading next word...`;
+            } else {
+                message.innerText =
+                    `The correct word was "${result.message.result}". Loading next word...`;
+            }
 
             message.className = "incorrect";
 
@@ -354,6 +357,11 @@ async function checkGuess(giveUp = false) {
             setTimeout(loadGame, 1500);
 
         } else {
+
+            if (points <= 0)
+            {
+                giveUp();
+            }
 
             revealNextHint();
 
