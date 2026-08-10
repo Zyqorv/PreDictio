@@ -67,7 +67,11 @@ Expected JSON Response:
 
 
         <div class="guess-counter">
-            Guesses: <span id="guess-count">0</span>
+            Your Guesses: <span id="guess-count">0</span>
+        </div>
+
+        <div class="points">
+            Possible Points: <span id="points">-</span>
         </div>
 
 
@@ -79,6 +83,8 @@ Expected JSON Response:
 
 
         <div id="hints-container"></div>
+
+        <div id="hint-message"></div>
 
 
         <div class="input-group">
@@ -102,8 +108,6 @@ Expected JSON Response:
 
         <div id="message"></div>
 
-        <div id="hint-message"></div>
-
         <button
             class="btn btn-secondary"
             onclick="giveUp()">
@@ -126,7 +130,7 @@ Expected JSON Response:
 
 let currentItem = null;
 let currentHintIndex = 0;
-let guessCount = 0;
+let guessCount = "-";
 
 function updateStats() {
 
@@ -182,13 +186,17 @@ async function loadGame() {
 
 
         document.getElementById("hints-container").innerHTML = "";
+        document.getElementById("hint-message").innerText = "";
         document.getElementById("guess-input").value = "";
 
-        guessCount = 0;
+        guessCount = currentItem.guess_count ?? 0;
+
         document.getElementById("guess-count").innerText = guessCount;
+        document.getElementById("points").innerText = currentItem.points ?? "-";
 
-
-        currentHintIndex = 0;
+        while (currentHintIndex < guessCount && currentHintIndex < currentItem.hints.length) {
+            revealNextHint();
+        }
 
 
     } catch (error) {

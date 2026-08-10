@@ -331,6 +331,13 @@ body {
   font-size: 14px;
 }
 
+#hint-message {
+  margin-top: 14px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 14px;
+}
+
 
 #message.correct { color: var(--tile-green); }
 #message.incorrect { color: #D93025; }
