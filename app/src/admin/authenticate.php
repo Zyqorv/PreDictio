@@ -52,8 +52,34 @@ try {
         redirectWithStatus('/admin/login', 'Invalid password', 'error');
     }
 
+    $response = sendAdminMessage('get_perms', $message);
+
+    if (!is_array($response) || !isset($response['status'])) {
+        redirectWithStatus('/admin/login', 'Invalid response from server', 'error');
+    }
+
+    if ($response['status'] === 'error') {
+        $message = $response['message'] ?? 'Server error during authentication';
+        redirectWithStatus('/admin/login', $message, 'error');
+    }
+
+    if ($response['status'] === 'invalid') {
+        redirectWithStatus('/admin/login', 'User not found', 'error');
+    }
+
+    if (!isset($response['user_edit']) || !isset($response['word_edit']) || !isset($response['db_query']) || !isset($response['admin_log']) 
+                || !isset($response['api_log'])) {
+        redirectWithStatus('/admin/login', 'Malformed response from server', 'error');
+    }
+
     $_SESSION['admin_email'] = $adminEmail;
     $_SESSION['email'] = $adminEmail;
+
+    $_SESSION['user_edit'] = $response['user_edit'];
+    $_SESSION['word_edit'] = $response['word_edit'];
+    $_SESSION['db_query'] = $response['db_query'];
+    $_SESSION['admin_log'] = $response['admin_log'];
+    $_SESSION['api_log'] = $response['api_log'];
 
     $redirectTo = $_POST['redirect_to'] ?? '/admin/';
     if (!is_string($redirectTo) || !preg_match('#^/[-A-Za-z0-9_./]*$#', $redirectTo)) {

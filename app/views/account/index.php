@@ -102,8 +102,8 @@
                 document.getElementById('current-streak').textContent = "-";
                 document.getElementById('total-score').textContent = "-";
 
-                message.innerText =
-                    "Error: Unable to load account statistics.";
+                message.innerText = "Error: Unable to load account statistics.";
+                message.className = "error";
 
 
                 message.className = "incorrect";

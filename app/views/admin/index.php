@@ -22,7 +22,13 @@
 
 
             <button onclick="window.location.href='/game'" class="btn btn-primary">To Game</button>
-            <button onclick="window.location.href='/admin/database'" class="btn btn-secondary">Database Query</button>
+
+
+            <button onclick="window.location.href='/admin/users'" class="btn btn-secondary" <?php echo !$userEdit ? 'disabled' : ''; ?> > User Edit </button> 
+            <button onclick="window.location.href='/admin/words'" class="btn btn-secondary" <?php echo !$wordEdit ? 'disabled' : ''; ?> > Word Edit </button>
+            <button onclick="window.location.href='/admin/database'" class="btn btn-secondary" <?php echo !$dbQuery ? 'disabled' : ''; ?> > Database Query </button> 
+            <button onclick="window.location.href='/admin/edit-log'" class="btn btn-secondary" <?php echo !$adminLog ? 'disabled' : ''; ?> > Edit Log </button>
+            <button onclick="window.location.href='/admin/api-log'" class="btn btn-secondary" <?php echo !$apiLog ? 'disabled' : ''; ?> > API Log </button>
 
             <div class="divider">
                 <span>or</span>
