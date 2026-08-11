@@ -55,7 +55,7 @@
         </div>
 
 
-        <form action="/admin/flagUser.php" method="POST">
+        <form action="/admin/flagUser" method="POST">
 
             <input
                 type="hidden"
@@ -84,7 +84,7 @@
         </form>
 
 
-        <form action="/admin/unflagUser.php" method="POST">
+        <form action="/admin/unflagUser" method="POST">
 
             <input
                 type="hidden"
