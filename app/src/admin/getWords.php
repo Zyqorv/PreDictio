@@ -41,7 +41,7 @@ try {
         $sql
     );
 
-    if (isset($response["type"]) && $response["type"] === "success") {
+    if (isset($response["status"]) && $response["status"] === "success") {
         if (isset($response["message"]) && is_array($response["message"])) {
             $words = $response["message"];
         }
@@ -49,7 +49,7 @@ try {
             $queryError = "Invalid response from query service.";
         }
     } 
-    else if (isset($response["type"]) && $response["type"] === "error") {
+    else if (isset($response["status"]) && $response["status"] === "error") {
         $queryError = $response["message"] ?? "Invalid response from query service.";
     }
 
