@@ -18,6 +18,8 @@ if (!isset($id)) {
     exit();
 }
 
+error_log($id);
+
 
 require_once __DIR__ . "/adminQuery.php";
 
