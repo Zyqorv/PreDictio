@@ -26,29 +26,29 @@ require_once __DIR__ . "/adminQuery.php";
 try {
 
 
+    $id = (int) $id;
+
+    $flagReasonSql = addslashes(trim($flagReason));
+    $adminEmailSql = addslashes($_SESSION["admin_email"]);
+
     $sql = "
         UPDATE users
         SET
             is_flagged = 1,
             flagged_at = CURRENT_TIMESTAMP,
-            flag_reason = :flag_reason,
+            flag_reason = '$flagReasonSql',
             flagged_by_admin_id = (
                 SELECT id
                 FROM users
-                WHERE email = :admin_email
+                WHERE email = '$adminEmailSql'
             )
-        WHERE id = :id
+        WHERE id = $id
     ";
 
 
     executeAdminQuery(
         $_SESSION["admin_email"],
-        $sql,
-        [
-            ":flag_reason" => $flagReason,
-            ":admin_email" => $_SESSION["admin_email"],
-            ":id" => $id
-        ]
+        $sql
     );
 
 

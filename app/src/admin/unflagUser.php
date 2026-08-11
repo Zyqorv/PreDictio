@@ -18,13 +18,13 @@ if (!isset($id)) {
     exit();
 }
 
-error_log($id);
-
 
 require_once __DIR__ . "/adminQuery.php";
 
 try {
 
+
+    $id = (int) $id;
 
     $sql = "
         UPDATE users
@@ -33,17 +33,10 @@ try {
             flagged_at = NULL,
             flag_reason = NULL,
             flagged_by_admin_id = NULL
-        WHERE id = :id
+        WHERE id = $id
     ";
 
-
-    executeAdminQuery(
-        $_SESSION["admin_email"],
-        $sql,
-        [
-            ":id" => $id
-        ]
-    );
+    executeAdminQuery($_SESSION["admin_email"], $sql);
 
 
 } catch (Throwable $e) {
