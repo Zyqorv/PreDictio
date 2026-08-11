@@ -38,11 +38,7 @@ try {
 
     executeAdminQuery(
         $_SESSION["admin_email"],
-        $sql,
-        [
-            ":enabled" => $enabled,
-            ":id" => $wordId
-        ]
+        $sql
     );
 
 
