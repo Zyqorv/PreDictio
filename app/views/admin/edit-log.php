@@ -33,10 +33,11 @@
                 <table class="api-log-table">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Admin Email</th>
                             <th>Query</th>
                             <th>Rows Affected</th>
-                            <th>Timestamp</th>
+                            <th>Created At</th>
                         </tr>
                     </thead>
 
@@ -44,6 +45,14 @@
                         <?php foreach ($editLogs as $log): ?>
 
                             <tr>
+                                <td>
+                                    <?= htmlspecialchars(
+                                        (string) $log['log_id'],
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+                                </td>
+
                                 <td>
                                     <?= htmlspecialchars(
                                         (string) $log['admin_user_id'],
@@ -70,7 +79,7 @@
 
                                 <td>
                                     <?= htmlspecialchars(
-                                        (string) $log['timestamp'],
+                                        (string) $log['created_at'],
                                         ENT_QUOTES,
                                         'UTF-8'
                                     ) ?>

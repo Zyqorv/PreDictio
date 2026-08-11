@@ -19,12 +19,13 @@ try {
 
     $sql = "
         SELECT
+            log_id
             admin_user_id,
             query,
             rows_affected,
-            timestamp
+            created_at
         FROM admin_logs
-        ORDER BY timestamp DESC
+        ORDER BY created_at DESC
     ";
 
     $response = executeAdminQuery(
