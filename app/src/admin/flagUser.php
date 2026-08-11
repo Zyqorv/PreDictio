@@ -29,20 +29,18 @@ try {
     $id = (int) $id;
 
     $flagReasonSql = addslashes(trim($flagReason));
-    $adminEmailSql = addslashes($_SESSION["admin_email"]);
+    $adminEmail = $_SESSION["admin_email"];
 
     $sql = "
-        UPDATE users
+        UPDATE users AS u
+        JOIN users AS admin
+            ON admin.email = '$adminEmail'
         SET
-            is_flagged = 1,
-            flagged_at = CURRENT_TIMESTAMP,
-            flag_reason = '$flagReasonSql',
-            flagged_by_admin_id = (
-                SELECT id
-                FROM users
-                WHERE email = '$adminEmailSql'
-            )
-        WHERE id = $id
+            u.is_flagged = 1,
+            u.flagged_at = CURRENT_TIMESTAMP,
+            u.flag_reason = '$flagReasonSql',
+            u.flagged_by_admin_id = admin.id
+        WHERE u.id = $id;
     ";
 
 
