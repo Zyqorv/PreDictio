@@ -26,4 +26,12 @@ if (
     exit();
 }
 
+$id = $_POST["id"];
+$email = $_POST["email"];
+$role = $_POST["role"];
+$isFlagged = $_POST["is_flagged"];
+$flaggedAt = $_POST["flagged_at"];
+$flagReason = $_POST["flag_reason"];
+$flaggedByAdminId = $_POST["flagged_by_admin_id"];
+
 require __DIR__ . '/../../views/admin/user-manage.php';
