@@ -19,7 +19,7 @@ try {
 
     $sql = "
         SELECT
-            log_id
+            log_id,
             admin_user_id,
             query,
             rows_affected,
@@ -34,7 +34,7 @@ try {
     );
 
 
-    if (isset($response["type"]) && $response["type"] === "success") {
+    if (isset($response["status"]) && $response["status"] === "success") {
         if (isset($response["message"]) && is_array($response["message"])) {
             $editLogs = $response["message"];
         }
@@ -42,7 +42,7 @@ try {
             $queryError = "Invalid response from query service.";
         }
     } 
-    else if (isset($response["type"]) && $response["type"] === "error") {
+    else if (isset($response["status"]) && $response["status"] === "error") {
         $queryError = $response["message"] ?? "Invalid response from query service.";
     }
 
