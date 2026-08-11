@@ -7,7 +7,7 @@ if (!isset($_SESSION["admin_email"])) {
 }
 
 
-if (!isset($_SESSION["word_edit"]) || $_SESSION["word_edit"] !== 1) {
+if (!isset($_SESSION["word_edit"]) || (int) ($_SESSION["word_edit"] ?? 0) !== 1) {
     header("Location: /admin/");
     exit();
 }
