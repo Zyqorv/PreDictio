@@ -24,5 +24,8 @@ if (
     exit();
 }
 
+$id = (int) $_POST["id"];
+$enabled = (int) $_POST["enabled"];
+
 
 require __DIR__ . '/../../src/admin/wordEnable.php';

@@ -39,7 +39,7 @@
                             <th>Is Flagged</th>
                             <th>Flagged At</th>
                             <th>Flag Reason</th>
-                            <th>Flagged by Admin</th>
+                            <th>Flagged by Admin ID</th>
                             <th>Manage</th>
                         </tr>
                     </thead>

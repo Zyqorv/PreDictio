@@ -13,19 +13,13 @@ if (!isset($_SESSION["word_edit"]) || (int) ($_SESSION["word_edit"] ?? 0) !== 1)
 }
 
 
-if (
-    !isset($_POST["id"]) ||
-    !isset($_POST["enabled"])
-) {
+if (!isset($id) || !isset($enabled)) {
     header("Location: /admin/words");
     exit();
 }
 
 
 require_once __DIR__ . "/adminQuery.php";
-
-$wordId = $_POST["id"];
-$enabled = (int) $_POST["enable"];
 
 if ($enabled !== 0 && $enabled !== 1) {
     header("Location: /admin/words");
@@ -37,8 +31,8 @@ try {
     $sql = "
         UPDATE words
         SET
-            enabled = :enabled
-        WHERE word_id = :id
+            enabled = $enabled
+        WHERE word_id = $id
     ";
 
 
