@@ -13,17 +13,13 @@ if (!isset($_SESSION["user_edit"]) || (int) ($_SESSION["user_edit"] ?? 0) !== 1)
 }
 
 
-if (!isset($_POST["id"])) {
+if (!isset($id)) {
     header("Location: /admin/users");
     exit();
 }
 
 
 require_once __DIR__ . "/adminQuery.php";
-
-
-$userId = $_POST["id"];
-
 
 try {
 
@@ -43,7 +39,7 @@ try {
         $_SESSION["admin_email"],
         $sql,
         [
-            ":id" => $userId
+            ":id" => $id
         ]
     );
 

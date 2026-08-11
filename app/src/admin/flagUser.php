@@ -14,21 +14,13 @@ if (!isset($_SESSION["user_edit"]) || (int) ($_SESSION["user_edit"] ?? 0) !== 1)
 }
 
 
-if (
-    !isset($_POST["id"]) ||
-    !isset($_POST["flag_reason"]) ||
-    trim($_POST["flag_reason"]) === ''
-) {
+if (!isset($id) || !isset($flagReason) || trim($flagReason) === '') {
     header("Location: /admin/users");
     exit();
 }
 
 
 require_once __DIR__ . "/adminQuery.php";
-
-
-$userId = $_POST["id"];
-$flagReason = trim($_POST["flag_reason"]);
 
 
 try {
@@ -55,7 +47,7 @@ try {
         [
             ":flag_reason" => $flagReason,
             ":admin_email" => $_SESSION["admin_email"],
-            ":id" => $userId
+            ":id" => $id
         ]
     );
 
