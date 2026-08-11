@@ -1,5 +1,7 @@
 <?php
 
+error_log("unflagUser.php accessed");
+
 
 if (!isset($_SESSION["admin_email"])) {
     header("Location: /admin/login");
